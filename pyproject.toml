@@ -1,0 +1,22 @@
+[project]
+name = "power-predictive-score"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2.3",
+    "pandas-stubs>=2.2.3.250308",
+    "pydantic>=2.11.3",
+    "scikit-learn>=1.6.1",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.11.4",
+    "tox>=4.25.0",
+]
