@@ -4,7 +4,8 @@ from ppscore.core.metrics import f1_normalizer, mae_normalizer
 from ppscore.core.models import ScoreTask, TaskType
 
 
-def get_task_registry():
+def get_task_registry() -> dict[TaskType, ScoreTask]:
+    """Returns a dictionary with all tasks and their corresponding ScoreTask"""
     return {
         TaskType.REGRESSION: ScoreTask(
             type=TaskType.REGRESSION,
@@ -75,10 +76,10 @@ def get_task_registry():
     }
 
 
-def get_invalid_task(case_type, invalid_score):
+def get_invalid_task(case_type: TaskType, invalid_score: float) -> ScoreTask:
     """Get an invalid task for cases where calculation is not possible"""
     if case_type in get_task_registry().keys():
-        return get_task_registry()[case_type]
+        return get_task_registry()[case_type]  # type: ignore
     elif case_type in [
         TaskType.TARGET_IS_DATETIME,
         TaskType.TARGET_DATA_TYPE_NOT_SUPPORTED,

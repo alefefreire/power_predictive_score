@@ -1,4 +1,9 @@
-def normalized_mae_score(model_mae, naive_mae):
+from typing import Tuple
+
+import pandas as pd
+
+
+def normalized_mae_score(model_mae: float, naive_mae: float) -> float:
     """Normalizes the model MAE score, given the baseline score"""
     if model_mae > naive_mae:
         return 0
@@ -6,7 +11,9 @@ def normalized_mae_score(model_mae, naive_mae):
         return 1 - (model_mae / naive_mae)
 
 
-def mae_normalizer(df, y, model_score, **kwargs):
+def mae_normalizer(
+    df: pd.DataFrame, y: str, model_score: float, **kwargs
+) -> Tuple[float, float]:
     """In case of MAE, calculates the baseline score for y and derives the PPS."""
     from sklearn.metrics import mean_absolute_error  # type: ignore
 
@@ -17,7 +24,7 @@ def mae_normalizer(df, y, model_score, **kwargs):
     return ppscore, baseline_score
 
 
-def normalized_f1_score(model_f1, baseline_f1):
+def normalized_f1_score(model_f1: float, baseline_f1: float) -> float:
     """Normalizes the model F1 score, given the baseline score"""
     if model_f1 < baseline_f1:
         return 0
@@ -27,7 +34,9 @@ def normalized_f1_score(model_f1, baseline_f1):
         return f1_diff / scale_range
 
 
-def f1_normalizer(df, y, model_score, random_seed):
+def f1_normalizer(
+    df: pd.DataFrame, y: str, model_score: float, random_seed: int
+) -> Tuple[float, float]:
     """In case of F1, calculates the baseline score for y and derives the PPS."""
     from sklearn import preprocessing  # type: ignore
     from sklearn.metrics import f1_score

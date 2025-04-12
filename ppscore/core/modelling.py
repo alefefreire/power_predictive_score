@@ -1,12 +1,19 @@
 import numpy as np
+import pandas as pd
 
 from ppscore.core.data_types import dtype_represents_categories
-from ppscore.core.models import TaskType
+from ppscore.core.models import ScoreTask, TaskType
 
 
 def calculate_model_cv_score(
-    df, target, feature, task, cross_validation, random_seed, **kwargs
-):
+    df: pd.DataFrame,
+    target: str,
+    feature: str,
+    task: ScoreTask,
+    cross_validation: int,
+    random_seed: int,
+    **kwargs,
+) -> float:
     """Calculates the mean model score based on cross-validation"""
     from sklearn import preprocessing  # type: ignore
     from sklearn.model_selection import cross_val_score  # type: ignore
@@ -33,7 +40,7 @@ def calculate_model_cv_score(
         feature_input = sparse_matrix
     else:
         # Reshaping needed because there is only 1 feature
-        array = df[feature].values
+        array = df[feature].values  # type: ignore
         if not isinstance(array, np.ndarray):  # e.g Int64 IntegerArray
             array = array.to_numpy()
         feature_input = array.reshape(-1, 1)

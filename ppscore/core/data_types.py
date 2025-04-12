@@ -1,7 +1,11 @@
+from typing import Optional, Tuple
+
+import pandas as pd
+
 from ppscore.core.models import TaskType
 
 
-def dtype_represents_categories(series) -> bool:
+def dtype_represents_categories(series: pd.Series) -> bool:
     """Determines if the dtype of the series represents categorical values"""
     from pandas.api.types import is_categorical_dtype  # type: ignore
     from pandas.api.types import is_bool_dtype, is_object_dtype, is_string_dtype
@@ -14,7 +18,7 @@ def dtype_represents_categories(series) -> bool:
     )
 
 
-def feature_is_id(df, x):
+def feature_is_id(df: pd.DataFrame, x: str) -> bool:
     """Returns Boolean if the feature column x is an ID"""
     if not dtype_represents_categories(df[x]):
         return False
@@ -23,7 +27,9 @@ def feature_is_id(df, x):
     return category_count == len(df[x])
 
 
-def determine_case_and_prepare_df(df, x, y, sample=5_000, random_seed=123):
+def determine_case_and_prepare_df(
+    df: pd.DataFrame, x: str, y: str, sample: int = 5_000, random_seed: int = 123
+) -> Tuple[pd.DataFrame, TaskType]:
     """Returns str with the name of the determined case based on the columns x and y"""
     from pandas.api.types import (
         is_datetime64_any_dtype,
@@ -62,7 +68,9 @@ def determine_case_and_prepare_df(df, x, y, sample=5_000, random_seed=123):
     return df, TaskType.TARGET_DATA_TYPE_NOT_SUPPORTED
 
 
-def maybe_sample(df, sample, random_seed=None):
+def maybe_sample(
+    df: pd.DataFrame, sample: int, random_seed: Optional[int] = None
+) -> pd.DataFrame:
     """
     Maybe samples the rows of the given df to have at most `sample` rows
     """
