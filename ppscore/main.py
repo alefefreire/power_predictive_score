@@ -1,16 +1,19 @@
 from ppscore.scoring.predictor import PPSCalculator
+import pandas as pd
+from ppscore.core.models import TaskType
+from typing import Optional
 
 
 def score(
-    df,
-    x,
-    y,
-    task=None,  # Deprecated parameter
-    sample=5_000,
-    cross_validation=4,
-    random_seed=123,
-    invalid_score=0,
-    catch_errors=True,
+    df: pd.DataFrame,
+    x: str,
+    y: str,
+    task: Optional[TaskType] = None,  # Deprecated parameter
+    sample: int = 5_000,
+    cross_validation: int = 4,
+    random_seed: int = 123,
+    invalid_score: int = 0,
+    catch_errors: bool = True,
 ):
     """Compatibility function for existing code"""
     if task is not None:
